@@ -431,5 +431,19 @@ namespace Semka1GUI
             chori_success.Text = "vypis je v novom okne";
             return;
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //vypis testov v kraji podla RC
+            string vypis = "";
+            if (!_app.NovaFunkcionalita((int)nove_kraj.Value, ref vypis))
+            {
+                return;
+            }
+            var f = new WindowOut(vypis);
+            f.Text = "Vypis testov podla Rodneho Cisla";
+            f.Show();
+            return;
+        }
     }
 }

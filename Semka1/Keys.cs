@@ -76,7 +76,38 @@ namespace Semka1
         {
             if (ReferenceEquals(this, other)) return 0;
             if (ReferenceEquals(null, other)) return 1;
-            if(_keyVal.CompareTo(other._keyVal) == 0) return _keyValPlus.CompareTo(other._keyValPlus);
+            if (_keyVal.CompareTo(other._keyVal) == 0) return _keyValPlus.CompareTo(other._keyValPlus);
+            return _keyVal.CompareTo(other._keyVal);
+
+        }
+
+        public override string ToString()
+        {
+            return _keyVal.ToString();
+        }
+
+    }
+    class KeyRodCis : IComparable<KeyRodCis>
+    {
+        private string _keyVal;
+        private int _keyValPlus;
+
+        public KeyRodCis(string key, int keyPlus)
+        {
+            _keyVal = key;
+            _keyValPlus = keyPlus;
+        }
+
+        public string GetKey()
+        {
+            return _keyVal;
+        }
+
+        public int CompareTo(KeyRodCis? other)
+        {
+            if (ReferenceEquals(this, other)) return 0;
+            if (ReferenceEquals(null, other)) return 1;
+            if (_keyVal.CompareTo(other._keyVal) == 0) return _keyValPlus.CompareTo(other._keyValPlus);
             return _keyVal.CompareTo(other._keyVal);
 
         }

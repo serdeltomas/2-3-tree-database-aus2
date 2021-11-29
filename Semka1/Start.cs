@@ -7,9 +7,9 @@ namespace Semka1
         
         static void Main()
         {
-            var test = new Test();
             //var app = new App();
             //app.GenerateData(1000000, 1000000);
+            var test = new Test();
             test.TestAll(200000,0.2,0.2);
             //System.Console.WriteLine("DONE");
         }

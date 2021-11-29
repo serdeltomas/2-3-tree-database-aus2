@@ -11,7 +11,7 @@ namespace Semka1
         private T23Tree<KeyStr, Osoba> _strOsobyPcrDatum = new T23Tree<KeyStr, Osoba>();
         private T23Tree<KeyDat, PcrTest> _strPcrDatum = new T23Tree<KeyDat, PcrTest>();//data is saved here... ostatne su iba ref
         private T23Tree<KeyInt, PcrTest> _strPcrID = new T23Tree<KeyInt, PcrTest>();
-        private T23Tree<KeyInt, Miesto> _strKrajPcrDatum = new T23Tree<KeyInt, Miesto>();
+        private T23Tree<KeyInt, Miesto> _strKrajPcrDatum = new T23Tree<KeyInt, Miesto>();//pridany novy strom testov podla datumu
         private T23Tree<KeyInt, Miesto> _strOkresPcrDatum = new T23Tree<KeyInt, Miesto>();
         private T23Tree<KeyInt, Miesto> _strPracoviskoPcrDatum = new T23Tree<KeyInt, Miesto>();
         //private List<KeyInt> _pcrIdList = new List<KeyInt>();
@@ -40,10 +40,17 @@ namespace Semka1
             //ref var pcrTestRef = ref _strPcrDatum.GetDataRef(new KeyDat(pDatTestu, kodPcr));
             _strPcrID.Insert(new KeyInt(kodPcr), pcrTest);
             _strOsobyPcrDatum.GetData(new KeyStr(pRodCislo)).GetTree().Insert(new KeyDat(pDatTestu, kodPcr), pcrTest);
-            if (_strKrajPcrDatum.Contains(new KeyInt(pKodKraja))) 
+            if (_strKrajPcrDatum.Contains(new KeyInt(pKodKraja)))
+            {
                 _strKrajPcrDatum.GetData(new KeyInt(pKodKraja)).GetTree().Insert(new KeyDat(pDatTestu, kodPcr), pcrTest);
-            else { _strKrajPcrDatum.Insert(new KeyInt(pKodKraja), new Miesto(pKodKraja));
-                _strKrajPcrDatum.GetData(new KeyInt(pKodKraja)).GetTree().Insert(new KeyDat(pDatTestu, kodPcr), pcrTest); }
+                _strKrajPcrDatum.GetData(new KeyInt(pKodKraja)).GetTreeRodCis().Insert(new KeyRodCis(pRodCislo, kodPcr), pcrTest);
+            }
+            else
+            {
+                _strKrajPcrDatum.Insert(new KeyInt(pKodKraja), new Miesto(pKodKraja));
+                _strKrajPcrDatum.GetData(new KeyInt(pKodKraja)).GetTree().Insert(new KeyDat(pDatTestu, kodPcr), pcrTest);
+                _strKrajPcrDatum.GetData(new KeyInt(pKodKraja)).GetTreeRodCis().Insert(new KeyRodCis(pRodCislo, kodPcr), pcrTest);
+            }
             if (_strOkresPcrDatum.Contains(new KeyInt(pKodOkresu))) 
                 _strOkresPcrDatum.GetData(new KeyInt(pKodOkresu)).GetTree().Insert(new KeyDat(pDatTestu, kodPcr), pcrTest);
             else { _strOkresPcrDatum.Insert(new KeyInt(pKodOkresu), new Miesto(pKodOkresu));
@@ -75,11 +82,15 @@ namespace Semka1
             _strPcrID.Insert(new KeyInt(pKodPcr), pcrTest);
             _strOsobyPcrDatum.GetData(new KeyStr(pRodCislo)).GetTree().Insert(new KeyDat(pDatTestu, pKodPcr), pcrTest);
             if (_strKrajPcrDatum.Contains(new KeyInt(pKodKraja)))
+            {
                 _strKrajPcrDatum.GetData(new KeyInt(pKodKraja)).GetTree().Insert(new KeyDat(pDatTestu, pKodPcr), pcrTest);
+                _strKrajPcrDatum.GetData(new KeyInt(pKodKraja)).GetTreeRodCis().Insert(new KeyRodCis(pRodCislo, pKodPcr), pcrTest);
+            }
             else
             {
                 _strKrajPcrDatum.Insert(new KeyInt(pKodKraja), new Miesto(pKodKraja));
                 _strKrajPcrDatum.GetData(new KeyInt(pKodKraja)).GetTree().Insert(new KeyDat(pDatTestu, pKodPcr), pcrTest);
+                _strKrajPcrDatum.GetData(new KeyInt(pKodKraja)).GetTreeRodCis().Insert(new KeyRodCis(pRodCislo, pKodPcr), pcrTest);
             }
             if (_strOkresPcrDatum.Contains(new KeyInt(pKodOkresu))) 
                 _strOkresPcrDatum.GetData(new KeyInt(pKodOkresu)).GetTree().Insert(new KeyDat(pDatTestu, pKodPcr), pcrTest);
@@ -367,6 +378,7 @@ namespace Semka1
             var t = _strPcrID.GetData(new KeyInt(pCisloTestu));
             var keyPcrDat = new KeyDat(t.GetDat(), pCisloTestu);
             _strKrajPcrDatum.GetData(new KeyInt(t.GetKraj())).GetTree().Delete(keyPcrDat);
+            _strKrajPcrDatum.GetData(new KeyInt(t.GetKraj())).GetTreeRodCis().Delete(new KeyRodCis(t.GetRodCis(), pCisloTestu));
             _strOkresPcrDatum.GetData(new KeyInt(t.GetOkres())).GetTree().Delete(keyPcrDat);
             _strPracoviskoPcrDatum.GetData(new KeyInt(t.GetPrac())).GetTree().Delete(keyPcrDat);
             _strOsobyPcrDatum.GetData(new KeyStr(t.GetRodCis())).GetTree().Delete(keyPcrDat);
@@ -383,6 +395,7 @@ namespace Semka1
             {
                 var keyPcrDat = new KeyDat(t.GetDat(), t.GetKod());
                 _strKrajPcrDatum.GetData(new KeyInt(t.GetKraj())).GetTree().Delete(keyPcrDat);
+                _strKrajPcrDatum.GetData(new KeyInt(t.GetOkres())).GetTreeRodCis().Delete(new KeyRodCis(t.GetRodCis(), t.GetKod()));
                 _strOkresPcrDatum.GetData(new KeyInt(t.GetOkres())).GetTree().Delete(keyPcrDat);
                 _strPracoviskoPcrDatum.GetData(new KeyInt(t.GetPrac())).GetTree().Delete(keyPcrDat);
                 _strPcrID.Delete(new KeyInt(t.GetKod()));
@@ -429,7 +442,7 @@ namespace Semka1
                 } while (_strPcrID.Contains(pcrIDkey));
                 //_pcrIdList.Add(pcrIDkey);
                 var aktRodCis = new KeyStr(_rodCisList[rand.Next(_strOsobyPcrDatum.Count())]);
-                var aktDatum = new KeyDat(new DateTime(DateTime.Now.Ticks).AddDays(-rand.Next(600))
+                var aktDatum = new KeyDat(new DateTime(DateTime.Now.Ticks).AddDays(-rand.Next(614))
                     .AddHours(-rand.Next(24)).AddMinutes(-rand.Next(60)).AddSeconds(-rand.Next(60)), pcrID);
                 var prac = rand.Next(1, PRACOVISKOCOUNT); // 1-150
                 var pracKey = new KeyInt(prac);
@@ -445,11 +458,15 @@ namespace Semka1
                 _strOsobyPcrDatum.GetData(aktRodCis).GetTree().Insert(aktDatum, pcrTest);
                 _strPcrID.Insert(pcrIDkey, pcrTest);
                 if (_strKrajPcrDatum.Contains(krajKey))
+                {
                     _strKrajPcrDatum.GetData(krajKey).GetTree().Insert(aktDatum, pcrTest);
+                    _strKrajPcrDatum.GetData(krajKey).GetTreeRodCis().Insert(new KeyRodCis(aktRodCis.GetKey(), pcrIDkey.GetKey()), pcrTest);
+                }
                 else
                 {
                     _strKrajPcrDatum.Insert(krajKey, new Miesto(kraj));
                     _strKrajPcrDatum.GetData(krajKey).GetTree().Insert(aktDatum, pcrTest);
+                    _strKrajPcrDatum.GetData(krajKey).GetTreeRodCis().Insert(new KeyRodCis(aktRodCis.GetKey(), pcrIDkey.GetKey()), pcrTest);
                 }
                 if (_strOkresPcrDatum.Contains(okresKey))
                     _strOkresPcrDatum.GetData(okresKey).GetTree().Insert(aktDatum, pcrTest);
@@ -525,6 +542,21 @@ namespace Semka1
                 }
             }
 
+            return true;
+        }
+        public bool NovaFunkcionalita(int pKrajID, ref string vypis)
+        {
+            var keyMiesto = new KeyInt(pKrajID);
+            if (_strKrajPcrDatum == null || _strKrajPcrDatum.GetData(keyMiesto) == null) return false;
+            var zoznam = _strKrajPcrDatum.GetData(keyMiesto).GetTreeRodCis().InOrder();
+            var vypisLocal = "";
+            var count = 0;
+            foreach (var z in zoznam)
+            {
+                vypisLocal += z.ToString();
+                count++;
+            }
+            vypis += "pocet: " + count + "\n" + vypisLocal;
             return true;
         }
 

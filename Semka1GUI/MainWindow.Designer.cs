@@ -115,6 +115,10 @@ namespace Semka1GUI
             this.label32 = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
             this.label34 = new System.Windows.Forms.Label();
+            this.nove_kraj = new System.Windows.Forms.NumericUpDown();
+            this.label35 = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
+            this.btn_nove = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pcr_pracovisko)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcr_okres)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcr_kraj)).BeginInit();
@@ -128,6 +132,7 @@ namespace Semka1GUI
             ((System.ComponentModel.ISupportInitialize)(this.chori_okres)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chori_kraj)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chori_pocet_dni)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nove_kraj)).BeginInit();
             this.SuspendLayout();
             // 
             // btn17
@@ -953,11 +958,57 @@ namespace Semka1GUI
     "_____________________________________________________________________________SUB" +
     "ORY____";
             // 
+            // nove_kraj
+            // 
+            this.nove_kraj.Location = new System.Drawing.Point(12, 664);
+            this.nove_kraj.Maximum = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            this.nove_kraj.Name = "nove_kraj";
+            this.nove_kraj.Size = new System.Drawing.Size(100, 23);
+            this.nove_kraj.TabIndex = 93;
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(2, 631);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(859, 15);
+            this.label35.TabIndex = 94;
+            this.label35.Text = "_________________________________________________________________________________" +
+    "_______________________________________________________________________________N" +
+    "OVA____";
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(13, 646);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(49, 15);
+            this.label36.TabIndex = 95;
+            this.label36.Text = "Kraj (ID)";
+            // 
+            // btn_nove
+            // 
+            this.btn_nove.Location = new System.Drawing.Point(118, 664);
+            this.btn_nove.Name = "btn_nove";
+            this.btn_nove.Size = new System.Drawing.Size(113, 23);
+            this.btn_nove.TabIndex = 96;
+            this.btn_nove.Text = "Vypis testy";
+            this.btn_nove.UseVisualStyleBackColor = true;
+            this.btn_nove.Click += new System.EventHandler(this.button1_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(861, 639);
+            this.ClientSize = new System.Drawing.Size(861, 709);
+            this.Controls.Add(this.btn_nove);
+            this.Controls.Add(this.label36);
+            this.Controls.Add(this.label35);
+            this.Controls.Add(this.nove_kraj);
             this.Controls.Add(this.label34);
             this.Controls.Add(this.label33);
             this.Controls.Add(this.label32);
@@ -1059,6 +1110,7 @@ namespace Semka1GUI
             ((System.ComponentModel.ISupportInitialize)(this.chori_okres)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chori_kraj)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chori_pocet_dni)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nove_kraj)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1151,6 +1203,10 @@ namespace Semka1GUI
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.NumericUpDown nove_kraj;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.Button btn_nove;
     }
 }
 

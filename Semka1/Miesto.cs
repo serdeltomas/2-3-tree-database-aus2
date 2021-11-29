@@ -10,6 +10,7 @@ namespace Semka1
     {
         private int _cislo;//not used
         private T23Tree<KeyDat, PcrTest> _stromPcr = new T23Tree<KeyDat, PcrTest>();
+        private T23Tree<KeyRodCis, PcrTest> _stromPcrRodCislo = new T23Tree<KeyRodCis, PcrTest>();
 
         public Miesto() { }
         public Miesto(int pCislo)
@@ -25,6 +26,10 @@ namespace Semka1
         public T23Tree<KeyDat, PcrTest> GetTree()
         {
             return _stromPcr;
+        }
+        public T23Tree<KeyRodCis, PcrTest> GetTreeRodCis()
+        {
+            return _stromPcrRodCislo;
         }
 
         public string ToStringCsv()
